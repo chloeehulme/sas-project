@@ -1,8 +1,31 @@
 import './App.css';
 import axios from "axios";
-import React from 'react';
+import React, {useEffect} from 'react';
 
 function App() {
+
+    useEffect(() => {
+        axios.get('http://localhost:4000/get-status').then((res) => {
+            for (let i = 0; i < res.data.length; i++) {
+                if (res.data[i] && res.data[i].light_on !== undefined) {
+                    console.log(res.data[i].light_on);
+                    var lightState = res.data[i].light_on;
+                    const buttonElement = document.getElementById(res.data[i].id);
+
+                    if (lightState) {
+                        buttonElement.classList.add("light-on");
+                        buttonElement.classList.remove("light-off");
+                    }
+                    else {
+                        buttonElement.classList.add("light-off");
+                        buttonElement.classList.remove("light-on");
+                    }
+                } else {
+                    console.log("Data for index " + i + " is undefined or does not have 'light_on' property.");
+                }
+            }
+        }); 
+    }, []);    
 
     // Toggles light on or off by light id in database
     function toggle(id) {
