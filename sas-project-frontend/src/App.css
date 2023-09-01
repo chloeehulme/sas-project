@@ -1,7 +1,8 @@
 .app-container {
   display: flex;
   justify-content: center;
-  margin-top: 200px;
+  margin-top: 100px;
+  padding-right: 150px;
 }
 
 .app-container .first-half {
@@ -20,17 +21,29 @@ button {
   padding: 10px;
   margin: 10px;
   width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
 
 button.master-switch {
   margin-left: 200px;
 }
 
-/* Add CSS classes for different button states */
 .light-on {
-  background-color: yellow; /* Set the background color for the "on" state */
+  background-color: yellow;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #808002 0 -1px 9px, #FF0 0 2px 12px;
 }
 
 .light-off {
-  background-color: white; /* Set the background color for the "off" state */
+  background-color: white;
+}
+
+button.master-on {
+  background-color: #ABFF00;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;
+}
+
+button.master-off {
+  background-color: #F00;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
 }

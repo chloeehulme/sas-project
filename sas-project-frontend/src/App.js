@@ -4,8 +4,8 @@ import React from 'react';
 
 function App() {
 
+    // Toggles light on or off by light id in database
     function toggle(id) {
-        console.log("clicked: " + id)
         axios.get('http://localhost:4000/toggle/' + id).then((res) => {
             var lightState = res.data[0].light_on;
             const buttonElement = document.getElementById(id);
@@ -17,15 +17,37 @@ function App() {
                 buttonElement.classList.add("light-off");
                 buttonElement.classList.remove("light-on");
             }
-        });
+        }); 
+    };
 
-        
+    // Toggles all lights on
+    function masterOn() {
+        axios.get('http://localhost:4000/toggle/master/on').then((res) => {
+            for (let i = 1; i <= res.data; i++){
+                const buttonElement = document.getElementById(i);
+                buttonElement.classList.add("light-on");
+                buttonElement.classList.remove("light-off");
+            }
+        }); 
+    };
+
+    // Toggles all lights off
+    function masterOff() {
+        axios.get('http://localhost:4000/toggle/master/off').then((res) => {
+            for (let i = 1; i <= res.data; i++){
+                const buttonElement = document.getElementById(i);
+                buttonElement.classList.add("light-off");
+                buttonElement.classList.remove("light-on");
+            }
+        }); 
     };
 
     return (
         <div className="App">
+            <h1 style={{textAlign:"center"}}>Virtual Switch Board</h1>
               <div className='app-container'>
-              <button className='master-swtich' style={{width:"100px"}} onClick={() => toggle(0)}>Master Switch</button>
+              <button className='master-swtich master-on' style={{width:"100px"}} onClick={() => masterOn()}>Master ON</button>
+              <button className='master-swtich master-off' style={{width:"100px"}} onClick={() => masterOff()}>Master OFF</button>
                     <div className='first-half'>
                         <button id='1' onClick={() => toggle(1)}>1</button>
                         <button id='3' onClick={() => toggle(3)}>3</button>
