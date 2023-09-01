@@ -1,0 +1,36 @@
+.app-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 200px;
+}
+
+.app-container .first-half {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.app-container .second-half {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+button {
+  padding: 10px;
+  margin: 10px;
+  width: 50px;
+}
+
+button.master-switch {
+  margin-left: 200px;
+}
+
+/* Add CSS classes for different button states */
+.light-on {
+  background-color: yellow; /* Set the background color for the "on" state */
+}
+
+.light-off {
+  background-color: white; /* Set the background color for the "off" state */
+}
