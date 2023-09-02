@@ -28,7 +28,7 @@ function App() {
         }); 
     }, []);    
 
-    // Toggles light on or off by light id in database
+    // Toggles light on or off by light id
     function toggle(id) {
         axios.get('http://localhost:4000/toggle/' + id).then((res) => {
             var lightState = res.data[0].light_on;

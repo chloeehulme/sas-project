@@ -8,6 +8,7 @@ const { Pool, Client } = require('pg');
 
 app.use(cors());
 
+// Postgres connect
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
@@ -16,10 +17,11 @@ const pool = new Pool({
   port: 5432
 });
 
+// mqtt connect
 server.on('connect', () => {
     console.log('mqtt connected');
 
-    // Gets every value in light_on column to initialise lights in interface onload
+    // Gets every value in light_on column to initialise lights in interface onload (useEffect) function
     app.get('/get-status', (req, res) => {
         pool.query('SELECT * FROM lights', (err, result1) => {
             if (err) {
@@ -30,7 +32,7 @@ server.on('connect', () => {
         });
     });
 
-    // Toggles light on or off by light id in database
+    // Toggles light on or off by light id in database then publishes mqtt message to related topic
     app.get('/toggle/:id', (req, res) => {
         const id = req.params.id;
 
@@ -68,7 +70,7 @@ server.on('connect', () => {
         });
     });
 
-    // Toggles all lights on
+    // Toggles all lights on then publishes mqtt message to related topic
     app.get('/toggle/master/on', (req, res) => {
         pool.query('SELECT MAX(id) as max_id FROM lights', (err, result1) => {
             if (err) {
@@ -90,7 +92,7 @@ server.on('connect', () => {
         });
     });
 
-    // Toggles all lights off
+    // Toggles all lights off then publishes mqtt message to related topic
     app.get('/toggle/master/off', (req, res) => {
         pool.query('SELECT MAX(id) as max_id FROM lights', (err, result1) => {
             if (err) {
@@ -114,6 +116,7 @@ server.on('connect', () => {
 
 })
 
+// Server connect
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
