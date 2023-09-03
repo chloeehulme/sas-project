@@ -7,6 +7,7 @@ function App() {
     // Assign correct styling for current light states on page (re)load
     useEffect(() => {
         axios.get('http://localhost:4000/get-status').then((res) => {
+            console.log(res.data)
             for (let i = 0; i < res.data.length; i++) {
                 if (res.data[i] && res.data[i].light_on !== undefined) {
                     console.log(res.data[i].light_on);

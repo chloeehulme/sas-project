@@ -28,6 +28,12 @@ server.on('connect', () => {
                 res.status(500).send('Error executing query');
             } else {
                 res.status(200).json(result1.rows);
+                
+                for (let i = 0; i < result1.rowCount; i++) {
+                    var topic = `/lights/${result1.rows[i].id}/lightOn`
+                    var message = result1.rows[i].light_on.toString()
+                    server.publish(topic, message);
+                }
             }
         });
     });

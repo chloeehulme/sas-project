@@ -9,6 +9,7 @@
   "author": "Chloe Hulme",
   "license": "ISC",
   "dependencies": {
+    "johnny-five": "^2.1.0",
     "mqtt": "^5.0.4",
     "mqtt-wildcard": "^3.0.9"
   }
