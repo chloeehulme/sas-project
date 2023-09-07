@@ -2,11 +2,13 @@ import './App.css';
 import axios from "axios";
 import React, {useEffect} from 'react';
 
+const server_ip = 'app-load-balancer-313513181.us-east-1.elb.amazonaws.com'
+
 function App() {
 
     // Assign correct styling for current light states on page (re)load
     useEffect(() => {
-        axios.get('http://localhost:4000/get-status').then((res) => {
+        axios.get(`http://${server_ip}:4000/get-status`).then((res) => {
             console.log(res.data)
             for (let i = 0; i < res.data.length; i++) {
                 if (res.data[i] && res.data[i].light_on !== undefined) {
@@ -31,7 +33,7 @@ function App() {
 
     // Toggles light on or off by light id
     function toggle(id) {
-        axios.get('http://localhost:4000/toggle/' + id).then((res) => {
+        axios.get(`http://${server_ip}:4000/toggle/` + id).then((res) => {
             var lightState = res.data[0].light_on;
             const buttonElement = document.getElementById(id);
 
@@ -47,7 +49,7 @@ function App() {
 
     // Toggles all lights on
     function masterOn() {
-        axios.get('http://localhost:4000/toggle/master/on').then((res) => {
+        axios.get(`http://${server_ip}:4000/toggle/master/on`).then((res) => {
             for (let i = 1; i <= res.data; i++){
                 const buttonElement = document.getElementById(i);
                 buttonElement.classList.add("light-on");
@@ -58,7 +60,7 @@ function App() {
 
     // Toggles all lights off
     function masterOff() {
-        axios.get('http://localhost:4000/toggle/master/off').then((res) => {
+        axios.get(`http://${server_ip}:4000/toggle/master/off`).then((res) => {
             for (let i = 1; i <= res.data; i++){
                 const buttonElement = document.getElementById(i);
                 buttonElement.classList.add("light-off");
