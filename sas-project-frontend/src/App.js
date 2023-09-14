@@ -8,29 +8,39 @@ function App() {
 
     // Assign correct styling for current light states on page (re)load
     useEffect(() => {
-        axios.get(`http://${server_ip}:4000/get-status`).then((res) => {
-            console.log(res.data)
-            for (let i = 0; i < res.data.length; i++) {
-                if (res.data[i] && res.data[i].light_on !== undefined) {
-                    console.log(res.data[i].light_on);
-                    var lightState = res.data[i].light_on;
-                    const buttonElement = document.getElementById(res.data[i].id);
+        function fetchData(){
+            axios.get(`http://${server_ip}:4000/get-status`).then((res) => {
+                console.log(res.data)
+                for (let i = 0; i < res.data.length; i++) {
+                    if (res.data[i] && res.data[i].light_on !== undefined) {
+                        console.log(res.data[i].light_on);
+                        var lightState = res.data[i].light_on;
+                        const buttonElement = document.getElementById(res.data[i].id);
 
-                    if (lightState) {
-                        buttonElement.classList.add("light-on");
-                        buttonElement.classList.remove("light-off");
+                        if (lightState) {
+                            buttonElement.classList.add("light-on");
+                            buttonElement.classList.remove("light-off");
+                        }
+                        else {
+                            buttonElement.classList.add("light-off");
+                            buttonElement.classList.remove("light-on");
+                        }
+                    } else {
+                        console.log("Data for index " + i + " is undefined or does not have 'light_on' property.");
                     }
-                    else {
-                        buttonElement.classList.add("light-off");
-                        buttonElement.classList.remove("light-on");
-                    }
-                } else {
-                    console.log("Data for index " + i + " is undefined or does not have 'light_on' property.");
                 }
-            }
-        }); 
-    }, []);    
-
+            }); 
+        }
+        
+        // Fetches new data every 5 seconds to keep UI synchronised across multiple devices
+        const intervalId = setInterval(() => {
+            fetchData();
+            console.log("data fetched")
+          }, 5000);
+      
+        return () => clearInterval(intervalId);
+    }, []);   
+    
     // Toggles light on or off by light id
     function toggle(id) {
         axios.get(`http://${server_ip}:4000/toggle/` + id).then((res) => {
