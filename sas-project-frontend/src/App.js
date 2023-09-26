@@ -32,11 +32,11 @@ function App() {
             }); 
         }
         
-        // Fetches new data every 5 seconds to keep UI synchronised across multiple devices
+        // Fetches new data every 2 seconds to keep UI synchronised across multiple devices
         const intervalId = setInterval(() => {
             fetchData();
             console.log("data fetched")
-          }, 5000);
+          }, 2000);
       
         return () => clearInterval(intervalId);
     }, []);   
